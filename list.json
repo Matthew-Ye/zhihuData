@@ -1,0 +1,194 @@
+[
+    {
+        "questionFollower_count": 39,
+        "questionCreated_time": "2015-11-11 16:36:19",
+        "title": "请教高手：我理解的语义网络是否正确？我想参加这方面的研究。",
+        "questionUpdated_time": "2015-11-11 16:36:19",
+        "id": 37390725,
+        "answer": {
+            "thanks_count": 6,
+            "voteup_count": 32,
+            "comment_count": 1,
+            "answerId": 108215079,
+            "created_time": "2016-06-28 08:48:41",
+            "comment_permission": "all",
+            "content": "这个想法1960年代就有了，在知识工程里有太多太多研究了。在实践上，前仆后继有至少上百家公司从各个角度实验过，当然和其他任何领域领域，大部分都失败了。<br><br>从概念到工程，要极力降低成本，中间有无数的环节需要克服。知识提取、知识表示、知识存储、知识检索，每个子问题里面都有无数的小细节要扣。具体展开要说一个学期。简单介绍下就引用一下前段时间我的一篇文章《<a href=\"http://link.zhihu.com/?target=http%3A//blog.memect.cn/%3Fp%3D81\" class=\" wrap external\" target=\"_blank\" rel=\"nofollow noreferrer\">从语义网到知识图谱——语义技术工程化的回顾与反思<i class=\"icon-external\"></i></a>》（今天没时间贴图和排版了，有图的版本请看链接原文）<br><br>另外还有一篇《<a href=\"http://link.zhihu.com/?target=http%3A//blog.memect.cn/%3Fp%3D393\" class=\" wrap external\" target=\"_blank\" rel=\"nofollow noreferrer\">降低知识图谱的构造成本<i class=\"icon-external\"></i></a>》，也是谈各种工程问题。<br><br>-------------------------<br><br><a href=\"http://link.zhihu.com/?target=http%3A//blog.memect.cn/%3Fp%3D81\" class=\" wrap external\" target=\"_blank\" rel=\"nofollow noreferrer\">从语义网到知识图谱——语义技术工程化的回顾与反思<i class=\"icon-external\"></i></a><br><br>2016年3月11日 <br><br>本文根据鲍捷在云知声的演讲稿整理<br><p>感谢Leona对演讲录音的记录和整理</p><br>知识图谱的皮相<br><br><p>知识管理这个领域，有个分支叫语义网，这两年就改了名字叫知识图谱。知识图谱其实有狭义的和广义的区别。这里讲的是狭义的知识图谱。我觉得华东理工大学的王昊奋教授定义得挺好，抄在这里：知识图谱旨在描述真实世界中存在的各种实体或概念。其中，每个实体或概念用一个全局唯一确定的ID来标识，称为它们的标识符。每个属性-值对用来刻画实体的内在特性，而关系用来连接两个实体，刻画它们之间的关联。</p><br><p>但我觉得，当我们在工程上去讲这个事情的时候，并不需要太拘泥于知识图谱到底是什么。有人问我说是否必须要用RDF（资源描述框架）才是知识图谱？或者说是不是必须用Neo4j图数据库才是知识图谱？其实不是。以前我们领域里有一个语义网研究论坛，叫XML论坛，刘升平（云知声语义技术负责人）以前在那是老版主。2002、03年的时候，有人在上面问Jena怎么解析RDF。前两天，我偶然看到王丛（文因互联首席知识官）的语义网QQ群，里面有人还在问十几年前同样的问题。大家还是着了那个皮相，我要做知识图谱，我要做语义网，那么我就要用RDF，我用了RDF就解决问题了。不是这样。关键是，它的本质是什么？不在于你具体用了哪一种Syntax，哪一种数据存储的数据库。</p><br>从语义网络到描述逻辑<br><br><p>知识图谱的前身早在上世纪六十年代就出现了，演进过程中经历了很多节点，才有了今天。这个过程遵循着一个趋势分成了几步，具体有很多东西我就不提了。最早的六十年代末就有了，叫Frame Network，又叫Semantic Network，什么样子呢，就这个样子：节点—关系—属性。这个东西是什么？就是知识图谱吗。</p><br><p>看到这个东西的时候，逻辑学家一般会说，这玩意儿没法做推理嘛！然后大家就想，怎么去自动化这个推理的过程，然后就把它变成各种奇怪的东西。就从语义网络变成了Description Logic（描述逻辑）。六七十年代的时候，大家想了这东西不能做推理。First-order logic（一阶逻辑），在Frege（弗雷格）、Russell（罗素）那个时代，也就是在二十世纪初就已经搞得很完备了，这个一阶逻辑已经被玩坏了。但后来大家发现这东西不能完备推理，很多东西是不可判定的。</p><br><p>当时学者的思路，就是不去考虑成本，他考虑的就是soundness and completeness （正确性和完备性）。就是说：我能做任何一个可推理出来的结果，我一定要能够推理出来；所有我能推理出来的结果，一定要是正确的。那么当他发现一个逻辑做不到这一点的时候，他的心里面是百爪挠心。他想的就是soundness and completeness，对应到机器学习里面就是precision and recall（准确率和招回率）。</p><br><p>怎么能够达到最好的状态呢，后来发现了这么一个东西，叫做描述逻辑。当这个新概念出来的时候，很多人也是对它很迷信，就好像现在的深度学习一样。就感觉这玩意儿一出来什么问题都解决了。甚至曾经有人问我，描述逻辑能不能通过图灵测试。当时大家的期望那么高，然而过了几年，果不其然，大家都失望了，再也没有人理它。</p><br>WEB本体语言<p><br>有了这个东西以后，各种非常美妙的数学性质被证明了，就有人想怎么去应用这个东西。特别是九十年代末的时候，Web已经很好了，大家就想怎么把这个东西和Web结合在一起。</p><br><p>Tim Berners-Lee（蒂姆·伯纳斯-李），我在MIT的老板，Web的发明人，一直有一个宏伟的理念。他在八十年代初，比在座的大多数人都还年轻的时候，就说过要把知识都关联起来。</p><br><p>1980年，他写了一个系统，没人用。</p><p>1989年，他写了个proposal（项目申请），没人理。</p><p>1991年，他终于把Web写出来了，没人在乎。</p><br><p>等到1994年，大家终于认识到了Web的重要性。实际上，你去看他89年写的Web的第一个申请书，那里面写的东西就是语义网，但是一直没有实现。即便他后来的人生已经如此成功，但对自己的追求仍然念念不忘。所以他找到我在RPI的老板，Jim Hendler（当时在马里兰大学）说咱们一起干嘛！后来Jim Hendler第一个（语义网方向的）学生做出了SHOE这个语言，语义网的第一个语言，具体的Syntax大家不用太纠结，总之就是用HTML来写逻辑，可以想象到是多么奇怪。当时是第一个实验，后来就不断的演化。因为当时的英国和美国，主要是国防部门被这玩意儿忽悠得很厉害。</p><br><p>Agent这个技术有谁听过？当时就是主要忽悠这玩意儿。DAML它有个A嘛，就是DARPA Agent Markup Language，这玩意儿忽悠，最后忽悠得（应用上）不成功。后来他们（学术界）忽悠了另外一个东西，CALO计划，Cognitive Assistant，其实也就是Agent。那个项目成功了，变成了什么呢，对，变成了Siri。所以咱们做学术的，大的项目十个死了九个，但还有一个成功了，咱们对人类也是做了一点贡献。</p><br>OWL工作组<br><br><p>所以这玩意儿就是从逻辑往前走，然后变成了Web上的各种本体的语言，有OWL和OWL2。在2007年的时候就成立了W3C的工作组，就是Web本体语言的工作组。我在2008年进去，在里面工作了两年的时间。</p><br><p>我们做了一个语言，叫OWL2。这个语言非常失败，基本没有人用。为什么呢？实际上那个时候我开始反思这个领域。因为整个工作组，它是被逻辑学家所主导的。逻辑学家和工程师有什么样的不同想法呢？比如说，我们曾经有一次在讨论，我们这个数据查询语言要不要有等价关系（就是A=B，北京=帝都这种关系）？逻辑学家就说，no no no，绝对不可以，因为有了这个东西以后，我们就不再能保证多项式时间复杂性了。他们老是说这个，最后把现场的Oracle的人都说火了，说不管你加不加这个我们都要用，我一定会加这个东西，我不会在乎你这个语言是怎么写的。这就是工程师思维和科学家思维的区别嘛！所以说，当时Facebook、Google根本没有加入这个工作组，因为逻辑离现实非常非常远。</p><br><p>工作组里面遇到了很多很多问题，包括路线斗争，分成两派。一派叫做SEMANTIC Web，就是Semantics、Semantics、Semantics，逻辑、逻辑、逻辑。另外一派呢叫做semantic WEB。现在研究的所有逻辑问题其实我们二十年前都研究过了。现在唯一新的东西就是Web。Web是什么？让数据流动起来。数据流动起来最大的问题是什么？不是机器，是人。我们天天要多考虑人的问题。当时还有个特别有趣的讨论，就是我们这个语言规定的是不是太复杂了，是不是太难了？那些逻辑学家就会说no no no，这是polynomial-time（多项式时间）怎么会难呢？然后我们那个文档打印出来，600+页纸。我们正常人类觉得，600页纸是一个难的东西，而逻辑学家就觉得多项式时间是一个容易的词。其实我们之间有一个mindset（思维方式）不一样，大家真是掀桌子的那种讨论，斗争非常激烈。</p><br><p>我们在设计工程系统的时候，考虑计算复杂性、认知复杂性、工程复杂性。其实，就是我刚才讲到的成本嘛，机器的成本、人的成本、数据的成本，每一点成本我们都是要考虑到的。但是对于非工程师（科学家）而言，他们是不会在乎这些东西的。为了这上面每一点啊，大家都要不停地吵。每一点后面都有几千封电子邮件在后面吵，吵了两年时间。最终，这个东西是不成功的。</p><p>从一开始弱语义的语义网络，到最后的强语义的OWL，还有一个怪胎我没有提到，叫RIF，规则语言，比OWL还要变态好几倍，是完全彻底的失败，标准的完美的失败。这个东西非常不成功，告诉了我们什么？就是工程一定不要太条条框框，一定不能去想，因为这个东西理论上不漂亮，所以它不能做，不能有这种完美的精神。</p><br>元数据和RDF<br><br><p>当时还有另外一套，叫元数据，主要是在1998年的时候，网景公司有一群人开始做，后来演变成RDF，然后演变成了一堆奇奇怪怪的语言，然后是<a href=\"http://link.zhihu.com/?target=http%3A//schema.org\" class=\" external\" target=\"_blank\" rel=\"nofollow noreferrer\"><span class=\"invisible\">http://</span><span class=\"visible\">schema.org</span><span class=\"invisible\"></span><i class=\"icon-external\"></i></a>，是Google提出来的，最后演变到了今天的知识图谱。</p><br><p>在座有多少人用RSS，或者曾经用过RSS？今天在座的小伙伴们可能很多人压根就没听说过这个词，它是第一个被应用起来的语义网的元数据的格式，后来被改名叫Rich Site Summary，第一个R被称为Rich。实际上最早的时候它是RDF，就是RDF Site Summary（1999年）。</p><br><p>Guha是我们领域里非常重要的一个人，他是麦卡锡的学生。麦卡锡是1956年人工智能的创始人之一，我们逻辑学派的大泰斗。Guha是他早期的一个博士生，后来去了Cyc，在那里面做CycL这个逻辑语言。然后1995年的时候跳槽到苹果公司，在苹果做了MCF，就是Meta Content Framework。苹果公司实际上是我们现在知识图谱的各种格式的鼻祖，从那里出来的，源头在那里。他做完这个东西以后跳槽到了Netscape，在那里碰到了XML的发明人，Tim Bray。他一开始的语法是很奇怪的，后来Tim说你应该用XML把他重新规划一下。97年的时候XML还是一个先进的技术。那么他们就把这个东西变成了RDF。</p><br><p>这玩意儿当时就算是很新颖的东西吧。在那之前元数据也有很多，比如说有Dublin Core，还有其他的我记不清了。为什么那些东西最后没能发展起来呢？因为都是面向机器的，它考虑的是怎么提高机器的效率。</p><br><p>RSS是不一样的，它想的是怎么提高人的效率，这样就火起来了。人是最重要的一件事情。到了1999年的时候，RDF就变成了W3C 的Recommendation（推荐标准）。</p><br><p>说一个小八卦吧。RDF的其中一个作者（Aaron Swartz）只有14岁，后来自杀了。因为他是一个热爱自由的人，他就偷那些论文，偷了几百万篇，然后被FBI给抓起来了，他就自杀了，死的时候年仅二十几岁。RDF就是有这么一个自由的基因在里头，由一群热爱自由的人创造出来的。</p><br><p>但是很不幸，1998年，它落入了逻辑学家的魔爪。2004年，被一群逻辑学家绑架了一个怪胎在上面，这个怪胎叫RDF语义，非常奇怪的一个高阶语义。把它说完就得花两天时间。2014年，有了RDF1.1。RDF曾经成了一个面向人的语言，后来到了某一个时期成了面向机器的语言。被绑架了，就是它厄运的开始。</p><br><p>在实践当中推理是很少被用到的，大多数时间我们有数据就够了，有一个结构化的东西就好。关键是成本，推理是非常需要成本的。</p><br>互联数据和开放数据<p><br>2006年，我们这个语义堆栈已经变成了这样一个复杂的东西。一开始语义网有一个叫做层次蛋糕的东西。大家都知道在网络领域有一个七层协议嘛。语义网也有一个类似的七层协议。有一些好事之徒把它从平面的变成立体的。这里面涉及到的概念绝大多数人读两个PhD都读不完。完全没有人能看得懂这东西。</p><p><br>2006年，Tim Berners-Lee（就是我们的神），已经看不惯这种事情了。他说，要有光！（呵呵）不是，要有Linked Data，于是就有了Linked Data。他发了个圣旨之后，大家都开始研究。然后到了2009年的时候，他跑到TED上去喊，Raw Data Now！大家也很打鸡血一样在那儿喊，就像练气功一样。他就是希望用这种个人魅力去逆转错误的趋势。所以后来他就是强调，数据一定要公开。</p><br><br><p>当然他也在不断地修正自己的理论，作为一个原教旨主义的数据公开主义者，到2006年，他认识到数据的公开和互联这件事情本身是高成本的，要先从低成本的东西开始做，一步一步地往前走。所以又是海一样的银子扔进去。他忽悠的最主要的成功对象就是军方。美国军方和英国军方又扔了上十亿的英镑和美元进去来做这个事情。</p><br><p>然后他终于成功忽悠了白宫。2009年的一个巨大的胜利就是白宫要求所有的部门都要有公开数据。每一个部门都必须把它的数据公开了。公开了以后怎么样呢？结构化吧。用什么结构化呢？就用RDF结构化。2009年，我们RPI就把这个项目给吃下来了，结构化美国所有的政府公开数据，最后大概有几百万个数据集。你能想象到的国民经济每一个领域的数据都有。</p><br><p>有了DBpedia（一个基于维基百科的结构化数据库），有了这个政府公开数据，然后才有了IBM Waston。所以Waston项目能走完最后的十个百分点。我记得Waston的文章里也提到了，就是把Linked Data给turn on和turn off，就是最后十个百分点的差距。所以说这十个（百分）点就是美国和英国的上十亿的钱砸进去砸出来的一点响，为我们在问答领域里做出了贡献。真的是有多少人工就有多少智能。</p><br><p>那么在这一点上我们看到，我们之所以在关联数据领域里面能够取得突破，是解放了思想。可以说当年Waston出来的时候，就好像在2012年在ImageNet上面发现了原来图像识别可以这么玩一样。一种震撼性的东西，哇哦，还可以这样子。我们2010年，发现原来Linked Data可以这样玩。我们解放了思想以后，从强语义可以推理、推理，然后soundness and completeness，我们想怎么能够降低成本。一个弱语义就够了，工程够用就可以了嘛！所以我们就有了后来一系列胜利。</p><br>数据交换和数据存储<p>这一块就是讲交换语言和存储语言的区别。RDF开始就是作为知识的交换语言被提出来，最早的时候，RSS嘛，还有就是元数据的管理，像苹果里面管理图片的数据，这样一种交换格式。如果大家还记得话，最早还有KIF，九十年代末的那些知识交换语言。</p><p><br>很不幸的是，到了某一个程度的时候，大家就把这个东西变成了数据存储语言。2006年前后，有一堆公司在想，既然用RDF可以做数据交换，也可以用RDF来做数据建模语言，然后再用RDF做数据存储语言。当时有PowerSet、Hakia，还有Twine啊这些公司来做这件事情。然后他们遇到了各种各样的问题，就是这个性能上不去，自己从头来做一整套的工具链，成本非常非常得高。</p><br><p>PowerSet没挺住，就把自己给卖掉了。<br>Hakia也把自己卖掉了。<br>Twine没有找到人去卖，最后就死掉了。</p><br><p>当时对RDF的定位，大家没有想清楚。当时谁也想不清楚，因为后来它们死了，我们才想清楚，这玩意儿不能作为存储语言。2013年，Google开始推Microdata，所以它现在推的knowledge graph都是Microdata。它是想，一定要轻，跟现有的工具链去尽可能融合在一起。后来它就推出了JSON-LD，另外一种格式，充分利用了现有的工具。</p><br><p>为什么？还是回到成本问题上来。人的成本，机器的成本，数据的成本。如果我们能尽可能地利用现有的工程基础，可以有效地降低这三样的成本。不需要去重新训练程序员，不需要去训练用户。我们可以用现成的软件，这些parser都不需要去重新写。我们原来写过的那些代码，运行的那些传统的接口，都可以重新去用。有效地降低了成本。</p><br><p>后来，存储语言就慢慢的就不再是RDF数据，变成了图数据库。微软有他自己的，Google也开发了自己的，雅虎也有。每个公司都内部开发一套，主要都是内存数据库。像Trinity的底层就是key-value store（键值数据库）。都是已经成熟的工程技术上面，包装出新的东西来，说到底还是一个成本的问题。</p><br><p>现在这几年在初创公司里面，大家用Graph Database（图数据库），兴起了一堆新的数据库。也有少量的人还在用triple store（三元组数据库），用SPARQL，但已经不再是主流了。这是大家血的教训换来的。</p><br>小结<br><br><p>我们回过头来看，向工程妥协的时候，我们就胜利。向教条主义坚持的时候，我们就失败。就是整个领域的总结吧。2006年之前的时候，我们由弱语义转向强语义，我们就失败了，因为我们看重的是科学。2006年的时候，我们看重的是工程，所以就取得了小小的成功。</p><br><p>往前走的话，我觉得我们做工程，不是某一个领域，某一个算法就能解决的。比如我们现在构造知识图谱，需要知识工程的技术，需要自然语言处理的技术，需要规则系统，需要正则表达式，有时候可能正则表达式是最重要的。各种low的、high tech的东西。我们今天在写正则表达式，明天就在玩词嵌入。各种有机的算法我们都要融合在一起。没有什么人工智能技术是高的或者低的，一定是有效的才是最好的。</p>",
+            "updated_time": "2016-06-28 08:50:13",
+            "author": {
+                "follower_count": 2420,
+                "authorAnswer_count": 15,
+                "employments": "文因互联CEOMemectCEO三星美国研发中心RPI博士后麻省理工学院 (MIT)访问研究BBN访问科学家万维网联盟（W3C）OWL工作组成员",
+                "authorColumn_count": 1,
+                "locations": "北京San JoseBostonAlbanyAmes, IOWA",
+                "educations": "Iowa State University计算机科学",
+                "gender": 1,
+                "authorArticle_count": 59,
+                "business": "金融",
+                "authorName": "鲍捷",
+                "authorId": "eefb771804e0b12d4103b601c67b3cf0"
+            }
+        },
+        "answer_count": 5,
+        "detail": "我是个程序员，因为对面向对象的现代编程语言的理解，有一天忽然想到：既然人类理解事物是面向对象的，那就是说人类的知识也是面向对象存储的，比如说“鸟会飞”，“鸟”就是个对象，“会飞”可以理解为这个对象的方法，“我给小明一本书”，\"我和小明\"是两个对象，\"给\"是我这个对象的方法，“小明”和“一本书”是这个方法的参数，“一本书”也可以分解为书的对象和数量属性“一本”,整个语言就是一个由词汇对象组成的程序啊，从源代码的角度也可以理解为把整个语言词汇链接起来的一个网络，每句话其实就是一个网络路径而已，后来查了百度发现这已经有人定义成语义网络了，而且还提出了一些“本体”的概念啦规范化和描述这个语义网络；可以理解为语义网络就是个知识库，可以通过现有的技术来检索、分词、并添加到这个语义网络中实现自动学习，而且可以通过路径求解来回答问题，这样能彻底的革新知识教育啊，而且把这个语义网络程序化，可以实现自动重构，自动编译，我感觉这就是思考，或者叫做梦（缺乏一些约束规范），甚至说创新，这个我越想越激动啊，有没有这方面研究的公司啊，我想加入啊。"
+    },
+    {
+        "questionFollower_count": 36,
+        "questionCreated_time": "2015-09-29 21:36:57",
+        "title": "你是否支持以分词的方式写中文，为什么？",
+        "questionUpdated_time": "2015-09-29 21:36:57",
+        "id": 36059348,
+        "answer": {
+            "thanks_count": 2,
+            "voteup_count": 29,
+            "comment_count": 23,
+            "answerId": 65702754,
+            "created_time": "2015-09-29 22:20:53",
+            "comment_permission": "all",
+            "content": "你 觉得 这样 写字 看 起来 比 原来 那样 要 爽 吗 ？ <br>拉丁文字 分词 书写 是 为了 提高 识别率 汉字 好像 不 存在 这个 问题 吧 。<br>当然 初级 对外汉语 教学 中 这样 分开 写 可能 会 帮助 外国 友人 学习 或者 在 汉字 上面 标 有 拼音 的 读物 上 分开 写 比较 美观 。<br><br>但你不觉得这样好累而且阅读和写作速度都特别慢吗！",
+            "updated_time": "2015-09-29 22:20:53",
+            "author": {
+                "follower_count": 748,
+                "authorAnswer_count": 29,
+                "employments": "None",
+                "authorColumn_count": 0,
+                "locations": "None",
+                "educations": "None",
+                "gender": 0,
+                "authorArticle_count": 0,
+                "business": "None",
+                "authorName": "章贤烨",
+                "authorId": "c898011d946c5bf44e7db0fedbb6205e"
+            }
+        },
+        "answer_count": 18,
+        "detail": "分词 本质上 可以 看做 连词， 因为不分词相当于每个字都分了开来，而 分词 就 可以 把 不该 分开 的 词 连在 一起。所以 虽然 有点 怪怪的 ，但是 分词 似乎 可以 一定程度上 避免 歧义。各位 认为 呢？"
+    },
+    {
+        "questionFollower_count": 94,
+        "questionCreated_time": "2015-05-18 23:08:44",
+        "title": "目前的提供开放API的中文知识图谱有哪些？",
+        "questionUpdated_time": "2017-01-08 16:00:33",
+        "id": 30479287,
+        "answer": {
+            "thanks_count": 10,
+            "voteup_count": 28,
+            "comment_count": 7,
+            "answerId": 93333613,
+            "created_time": "2016-04-02 10:09:47",
+            "comment_permission": "all",
+            "content": "谢邀，我是复旦大学GDM实验室中文知识图谱CN-DBpedia负责人。<br><br>我们有提供相应的API，<a href=\"http://link.zhihu.com/?target=http%3A//kw.fudan.edu.cn/cndbpedia/apiwiki/\" class=\" external\" target=\"_blank\" rel=\"nofollow noreferrer\"><span class=\"invisible\">http://</span><span class=\"visible\">kw.fudan.edu.cn/cndbped</span><span class=\"invisible\">ia/apiwiki/</span><span class=\"ellipsis\"></span><i class=\"icon-external\"></i></a><br>目前已经有700W+次的调用 <a href=\"http://link.zhihu.com/?target=http%3A//kw.fudan.edu.cn/statistics/basic/\" class=\" external\" target=\"_blank\" rel=\"nofollow noreferrer\"><span class=\"invisible\">http://</span><span class=\"visible\">kw.fudan.edu.cn/statist</span><span class=\"invisible\">ics/basic/</span><span class=\"ellipsis\"></span><i class=\"icon-external\"></i></a><br>另外我们也提供了在线搜索服务 <a href=\"http://link.zhihu.com/?target=http%3A//kw.fudan.edu.cn/cndbpedia/search/\" class=\" external\" target=\"_blank\" rel=\"nofollow noreferrer\"><span class=\"invisible\">http://</span><span class=\"visible\">kw.fudan.edu.cn/cndbped</span><span class=\"invisible\">ia/search/</span><span class=\"ellipsis\"></span><i class=\"icon-external\"></i></a><br>欢迎使用<br><br>===============2016.8.22更新====================<br>感谢大家的关注和使用，目前API调用次数为46,791,722",
+            "updated_time": "2017-01-01 21:15:04",
+            "author": {
+                "follower_count": 60,
+                "authorAnswer_count": 2,
+                "employments": "None",
+                "authorColumn_count": 0,
+                "locations": "上海",
+                "educations": "复旦大学计算机",
+                "gender": 1,
+                "authorArticle_count": 0,
+                "business": "互联网",
+                "authorName": "徐波",
+                "authorId": "9b016219ae2eb80574b8686d76dd86ff"
+            }
+        },
+        "answer_count": 5,
+        "detail": "目前在毕业论文中需要使用知识图谱，但是目前诸如百度，搜狗以及gdm等中文知识图谱并不开放API。在网上搜索到zhonto中文知识图谱 但是并没有找到使用手册及文档。"
+    },
+    {
+        "questionFollower_count": 123,
+        "questionCreated_time": "2016-08-25 17:09:12",
+        "title": "国内有哪些团队在做类似Amazon echo 的事儿？",
+        "questionUpdated_time": "2016-08-25 18:22:00",
+        "id": 50008797,
+        "answer": {
+            "thanks_count": 2,
+            "voteup_count": 23,
+            "comment_count": 5,
+            "answerId": 146134503,
+            "created_time": "2017-02-13 16:17:38",
+            "comment_permission": "all",
+            "content": "<p>感谢邀请！</p><p>发布于2014年11月的Amazon Echo,确实是智能硬件领域的亮点产品。除此以外，2016年5月，在I/O开发者大会上亮相的Google home，也是一款引发了无数关注的智能产品。</p><p>科大讯飞和京东（合资公司灵隆科技）联合推出的叮咚智能音箱于2015年5月发布，目前已经有旗舰版A1、青春版Q1、悦动版Q3、 新东方版本英语口语机器人等多个版本。</p><img src=\"https://pic4.zhimg.com/50/v2-6c360e0fd8ac031ee0cc592559358ae3_b.png\" data-rawwidth=\"960\" data-rawheight=\"417\" class=\"origin_image zh-lightbox-thumb\" width=\"960\" data-original=\"https://pic4.zhimg.com/50/v2-6c360e0fd8ac031ee0cc592559358ae3_r.png\"><p>众所周知，Amazon Echo正式面世时间为2015年7月，虽然，DingDong音箱较Echo更早面世，但截然不同的市场环境与宣传使叮咚和Echo展现出两种完全不同的姿态，以至于在大众级市场消费者对叮咚还是相对陌生的。Amazon Echo在销量增长最快的2016 年，卖出了超过200万台设备，这个成绩和整个美国市场环境有分不开的联系，这背后是美国消费者对于 Echo设备的高度认知以及亚马逊对于这款产品大量的营销投入。</p><p>在国内目前的市场状况下，过去的两年，叮咚致力于产品体验的升级和生态上的布局。</p><p>在产品体验上，叮咚已经实现了零触控、远距离、多场景的操作等；这其中就少不了麦克风阵列相关的技术，详情见<a href=\"https://zhuanlan.zhihu.com/p/22512377\" class=\"internal\">知乎专栏</a> <b>自然的语音交互——麦克风阵列，</b> 这里就不再赘述了。</p><p>在生态层面，借助京东微联生态和合作伙伴的力量，从生活服务到智能家居系统上百种服务和数千款款智能家居产品。比如E代洗、有道云笔记、喜马拉雅、以及国内知名的家电产品，比如小米空气净化器、美的冰箱、奥克斯空调等。截止到2016年底，叮咚音箱已经成为京东商城智能音箱品类的销量冠军（销量大于第2名到第10名之和），这个销量也在持续稳定的增长。</p><p><b>在中国，需要懂中文</b></p><p>未来，语音将成为智能交互的重要入口，“听懂中文”对于中国用户来说是衡量一个产品是否合格的首要问题。中文语音交互和对国内消费者使用场景的理解，是叮咚产品的灵魂。叮咚在语音识别的设计上更加看重中文语音交互和对国内消费者使用场景的理解。应用AIUI技术，可以实现一次唤醒，多轮语音对话的功能，对于上下文语义的理解、联想都已经达到了非常高的水平。</p><p>另外，语音识别还引进了讯飞方言识别系统，依托讯飞丰富的语料库，叮咚未来可以识别粤语、四川话、上海话、闽南话、河南话等多种方言。语言识别的不断优化，带来的是操作上更加简便，科技产品使用门槛不断降低，用户群进一步扩展到老人和儿童，无需复杂的学习就可以自如地控制智能音箱。</p><p>随着京东智能云服务的发展，叮咚音箱还将搭载京东智能云实现打车、外卖、快递、上门服务、健康管理、娱乐、资讯等与生活息息相关的服务，让人工智能真正成为生活中不可或缺的一部分。</p>",
+            "updated_time": "2017-02-13 16:17:38",
+            "author": {
+                "follower_count": 2444,
+                "authorAnswer_count": 4,
+                "employments": "None",
+                "authorColumn_count": 0,
+                "locations": "None",
+                "educations": "None",
+                "gender": 1,
+                "authorArticle_count": 5,
+                "business": "None",
+                "authorName": "科大讯飞",
+                "authorId": "215e24ecb0dd8100239baf62d871c420"
+            }
+        },
+        "answer_count": 10,
+        "detail": "可以是基础技术、开放平台、软件、硬件等。<br>参考，国外的如 <br>api.ai<br>samenticmachine<br>google allo<br>siri"
+    },
+    {
+        "questionFollower_count": 52,
+        "questionCreated_time": "2013-01-06 09:41:05",
+        "title": "小i机器人的优势劣势在哪里为什么？ 和siri、科大讯飞产品相比较",
+        "questionUpdated_time": "2013-01-07 15:58:21",
+        "id": 20694670,
+        "answer": {
+            "thanks_count": 6,
+            "voteup_count": 13,
+            "comment_count": 1,
+            "answerId": 29722396,
+            "created_time": "2014-08-26 16:00:50",
+            "comment_permission": "all",
+            "content": "<p><b>Siri=语音+智能机器人，其本质不是简单的语音控制软件，而是人工智能软件。</b></p><p>Siri=语音（技术含量20%）+智能机器人（技术含量80%）</p><p>其语音技术由Nuance提供，Nuance是全球最大的语音识别软件公司。</p><p>Siri成立于2007年，2010年被苹果以2亿美金收购，最初是以文字聊天服务为主。其最重要的特色，是智能人机交互，与语音控制识别技术最大的不同是人工智能系统分析。而前者并非人工智能。</p><p>Siri技术的实现方式：<img src=\"https://pic2.zhimg.com/50/37e6be8280867ce65e4e88f4a7ac9989_b.jpg\" data-rawwidth=\"554\" data-rawheight=\"366\" class=\"origin_image zh-lightbox-thumb\" width=\"554\" data-original=\"https://pic2.zhimg.com/50/37e6be8280867ce65e4e88f4a7ac9989_r.jpg\"></p><p><b>智能机器人——小i机器人是中国的Siri</b></p><p>小i机器人是一家长期专注于智能机器人（智能人机交互）技术和产品研发及产业应用的中国公司，智能人机交互系统的核心技术是以语义理解和知识处理为主要特征的多种人工智能技术。</p><p>小i机器人被媒体称为中国的Siri，而事实上小i机器人无论在发育时间、应用领域、还是在自然语言处理、智能人机交互多渠道接入，社会化媒体的跟进、机器人二次开发平台方面已经远远超越了Siri。</p><p>从2006年至今，小i机器人在智能机器人领域一直保持着领先的优势，产品遍布国内各个行业，三大电信运营商中移动、联通、电信都在使用小i机器人，各大银行，电子政务等也都在使用小i机器人的智能客服方案，小i因此占据了智能客服近90%的市场份额。</p><p>小i机器人的技术实现方式：</p><img src=\"https://pic4.zhimg.com/50/e9ad3cdf8a72021734bea8efbdfd5643_b.jpg\" data-rawwidth=\"554\" data-rawheight=\"416\" class=\"origin_image zh-lightbox-thumb\" width=\"554\" data-original=\"https://pic4.zhimg.com/50/e9ad3cdf8a72021734bea8efbdfd5643_r.jpg\"><br><p><b>语音控制软件——科大讯飞是中国的Nuance</b></p><p>而小i机器人与讯飞并不在同一个领域，科大讯飞作为国内领先的语音识别公司，其核心技术存在于语音识别方面，整体产品涉猎面比较广，大家熟悉的讯飞语点，讯飞输入法，能识别多种方言，而且准确率相当高，其实就是发挥了他在语音识别上的长处。目前讯飞在语音识别领域市场占有率也很可以的。</p><img src=\"https://pic3.zhimg.com/50/7d1674fd01a828cbd5cdc91e2171793e_b.jpg\" data-rawwidth=\"539\" data-rawheight=\"160\" class=\"origin_image zh-lightbox-thumb\" width=\"539\" data-original=\"https://pic3.zhimg.com/50/7d1674fd01a828cbd5cdc91e2171793e_r.jpg\"><br>",
+            "updated_time": "2014-08-26 16:00:50",
+            "author": {
+                "follower_count": 16,
+                "authorAnswer_count": 8,
+                "employments": "None",
+                "authorColumn_count": 0,
+                "locations": "北京",
+                "educations": "None",
+                "gender": 1,
+                "authorArticle_count": 0,
+                "business": "体育健身",
+                "authorName": "夏行人",
+                "authorId": "5c2165d5fbe7a0a41e8b13ad92c4dbdb"
+            }
+        },
+        "answer_count": 4,
+        "detail": "既然是要比较，那就得有个比较对象不是？LZ想比较小i和谁？"
+    },
+    {
+        "questionFollower_count": 200,
+        "questionCreated_time": "2011-07-01 15:23:09",
+        "title": "在线客服机器人（文字，不支持语音）方向创业有前途吗？",
+        "questionUpdated_time": "2011-07-24 12:01:59",
+        "id": 19744372,
+        "answer": {
+            "thanks_count": 2,
+            "voteup_count": 9,
+            "comment_count": 1,
+            "answerId": 13602724,
+            "created_time": "2011-12-29 11:26:41",
+            "comment_permission": "all",
+            "content": "一句话回答：  这个东西看你面向的对象是谁     <br><br>如果是销售型网站，我直接否定了，肯定不行.   <br><br>技术是一方面，以现技术的局限性，再强也不可能超过真人.    <br><br>而在小的销售型网站，只要还算灵光，也不会用这个，原因很简单，会造成客户流失 .    <br><br>你可以想想看，当一个客户想购买你的商品，结果发现你的客服竟然是个机器人，他会怎么想？   <br><br>支付宝推出机器人也是在有云客服和24h电话客服作为基础的情况下 .   <br><br>这个东西永远是一个锦上添花的东西 .   <br><br>完全靠他根本不可能.",
+            "updated_time": "2011-12-29 11:30:38",
+            "author": {
+                "follower_count": 68929,
+                "authorAnswer_count": 438,
+                "employments": "None",
+                "authorColumn_count": 0,
+                "locations": "北京",
+                "educations": "None",
+                "gender": 1,
+                "authorArticle_count": 0,
+                "business": "互联网",
+                "authorName": "周克",
+                "authorId": "4341b2063744476b0d0b447b5a9ed101"
+            }
+        },
+        "answer_count": 56,
+        "detail": " 语音的估计没希望，这里指的是文字的。<br><a href=\"http://link.zhihu.com/?target=http%3A//www1.9588.com/Robot/chat.htm\" class=\" external\" target=\"_blank\" rel=\"nofollow noreferrer\"><span class=\"invisible\">http://</span><span class=\"visible\">www1.9588.com/Robot/cha</span><span class=\"invisible\">t.htm</span><span class=\"ellipsis\"></span><i class=\"icon-external\"></i></a>，是我们做出来的一个应用，大家可以试试。<br><br>支持各种单程，往返，联程的查询。<br>支持各种时间的输入：今天，明天，后天，周末，下周一，下周三，下个月初，中秋节等<br>支持机场的选择，比如：上海浦东机场，上海虹桥，。。。等<br>可以航空公司的选择，国航，南航，东方航空，上航，海航。。。等<br>可以选择出发/到达时间：早上，上午，中午，下午，傍晚，晚上，深夜。。。等<br>可以各种限定词：最便宜的，最贵的，1000元以下的，1000-1500的，头等舱，经济舱，商务舱。。。等<br>例子1：联程，北京出发，上海中转，去海口<br>例子2：往返，北京，上海虹桥机场<br>例子3，明天早上北京出发，上海浦东，最便宜的<br><br>内部支持状态记忆，所以所有问题可以分为多次输入。<br><br>同时支持各种常见问题。<br>1，送票上门吗？<br>2，坐飞机能带宠物吗？<br>3，怎么付钱？ "
+    }
+]
